@@ -1,12 +1,24 @@
 package com.rest.webservices.restfulws.beans.user;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class User {
 
+    @Size(min = 2, message = "Invalid name. Has to be more than 2 characters")
     private String name;
+
     private Integer id;
+
+    @Past(message = "Date of Birth cannot be in the future")
     private Date dateOfBirth;
+
+    private List<Posts> posts;
+
 
     protected User(){
 
@@ -17,6 +29,7 @@ public class User {
         this.name=name;
         this.id=id;
         this.dateOfBirth=dateOfBirth;
+        posts = new ArrayList<>();
     }
 
 
@@ -45,4 +58,37 @@ public class User {
     }
 
 
+    public List<Posts> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Posts> posts) {
+        this.posts = posts;
+    }
+
+    public void setPost(Posts post){
+        int count = posts.size() +1 ;
+        post.setPostId(count);
+        this.posts.add(post);
+    }
+
+    public Posts getPost(int postId) {
+        for(Posts post : posts){
+            if(post.getPostId() == postId){
+                return post;
+            }
+        }
+        return null;
+    }
+
+    public List<Posts> deletePost(int postId){
+        Iterator<Posts> posts = this.getPosts().iterator();
+        while(posts.hasNext()){
+            Posts temp = posts.next();
+            if(temp.getPostId() == postId){
+                posts.remove();
+            }
+        }
+        return this.getPosts();
+    }
 }
