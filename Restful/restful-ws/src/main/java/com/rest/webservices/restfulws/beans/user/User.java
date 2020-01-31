@@ -1,5 +1,8 @@
 package com.rest.webservices.restfulws.beans.user;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -7,14 +10,18 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+
+@ApiModel("The User Definition")
 public class User {
 
     @Size(min = 2, message = "Invalid name. Has to be more than 2 characters")
+    @ApiModelProperty(notes = "Name should have atleast 2 characters, this is for swagger")
     private String name;
 
     private Integer id;
 
     @Past(message = "Date of Birth cannot be in the future")
+    @ApiModelProperty(notes = "DOB should be in the past")
     private Date dateOfBirth;
 
     private List<Posts> posts;

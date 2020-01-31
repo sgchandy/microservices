@@ -5,10 +5,14 @@ import com.rest.webservices.restfulws.beans.user.User;
 import com.rest.webservices.restfulws.dao.user.UserDaoService;
 import com.rest.webservices.restfulws.exception.user.PostNotFoundException;
 import com.rest.webservices.restfulws.exception.user.UserNotFoundException;
+import io.swagger.annotations.ApiModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+//import org.springframework.hateoas.EntityModel;
+//import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -48,6 +52,26 @@ public class UserResource {
         }
         return usrs;
     }
+
+    //Disable SwaggerUi to make HATEOAS work, or use an older version of SpringBoot
+    /*
+    @GetMapping("/retrieveUser/{id}")
+    public EntityModel<User> retrieveUserById(@PathVariable int id){
+        User usrs = service.getUser(id);
+        if(usrs== null){
+            throw new UserNotFoundException("id-"+id + " : Not found");
+        }
+        EntityModel<User> model = new EntityModel<>(usrs);
+        WebMvcLinkBuilder linkTo = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveAllUsers());
+        WebMvcLinkBuilder linkTo1 = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).retrieveUser(id));
+        WebMvcLinkBuilder linkTo2 = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getAllPosts(id));
+        model.add(linkTo.withRel("all-users"));
+        model.add(linkTo1.withRel("user"));
+        model.add(linkTo2.withRel("posts"));
+
+        return model;
+    }
+    */
 
 
     @PostMapping("/savePost/{id}")
